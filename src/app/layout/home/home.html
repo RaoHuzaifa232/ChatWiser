@@ -1,22 +1,4 @@
 <app-header />
-<!-- <p-panel
-  class="min-h-screen flex flex-col justify-center items-center bg-gray-900 text-white p-6"
-  [style]="{ 'text-align': 'center' }"
->
-  <h1>Welcome to ChatWiser</h1>
-  <p class="text-lg max-w-xl mx-auto mt-4 text-center px-4">
-    Your smart, secure, and seamless way to connect with people — anytime,
-    anywhere. Stay in touch, stay wise.
-  </p>
-  <div class="mt-6 text-center">
-    <p-button
-      type="button"
-      label="Get Started"
-      class="p-button-rounded p-button-outlined p-button-info"
-    />
-  </div>
-</p-panel> -->
-
 <!-- hero section -->
 <section>
   <div class="bg-white overflow-hidden">
@@ -45,18 +27,18 @@
               class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
             >
               <div class="rounded-md shadow">
-                <button
+                <div
                   class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition-colors"
                 >
                   Get Started
-                </button>
+                </div>
               </div>
               <div class="mt-3 sm:mt-0 sm:ml-3">
-                <button
+                <div
                   class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-colors"
                 >
                   Learn More
-                </button>
+                </div>
               </div>
             </div>
           </div>
@@ -113,7 +95,10 @@
                   <span
                     class="inline-flex items-center justify-center p-3 bg-indigo-600 rounded-md shadow-lg"
                   >
-                    <i [class]="feature.icon + ' h-6 w-6 text-white text-2xl'"></i>
+                    <i
+                      [class]="feature.icon + ' h-6 w-6 text-white'"
+                      style="font-size: 24px"
+                    ></i>
                   </span>
                 </div>
                 <h3
@@ -133,4 +118,89 @@
     </div>
   </div>
 </section>
+<!-- Testimonials -->
+<section>
+  <div class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2
+          class="text-base font-semibold text-indigo-600 tracking-wide uppercase"
+        >
+          Testimonials
+        </h2>
+        <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          What our users are saying
+        </p>
+      </div>
+      <div class="mt-12">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          @for (testimonial of testimonials; track $index; let index = $index) {
+          <div
+            class="flex flex-col bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+          >
+            <div class="px-6 py-8 sm:p-10 flex-grow">
+              <div class="mt-2">
+                <div class="text-gray-600 text-lg leading-relaxed">
+                  "{{ testimonial.content }}"
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-200 px-6 py-4 sm:px-10">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <img
+                    class="h-10 w-10 rounded-full"
+                    [src]="testimonial.image"
+                    [alt]="testimonial.author"
+                  />
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ testimonial.author }}
+                  </p>
+                  <p class="text-sm text-gray-500">{{ testimonial.role }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Gallery -->
+<div class="bg-gray-50 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h2
+        class="text-base font-semibold text-indigo-600 tracking-wide uppercase"
+      >
+        Gallery
+      </h2>
+      <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        See ChatWiser in action
+      </p>
+      <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+        Experience our intuitive interface and powerful features across all
+        devices.
+      </p>
+    </div>
+    <div class="mt-12">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        @for (image of images; track $index) {
+        <div
+          class="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
+        >
+          <img
+            [src]="image.src"
+            [alt]="image.alt"
+            class="w-full h-64 object-cover transform hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
 <app-footer />
