@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-// PrimeNG imports
-import { Panel } from 'primeng/panel';
-import { Button } from 'primeng/button';
+import { Home } from './layout/home/home';
 
 @Component({
   selector: 'app-root',
-  imports: [Panel, Button],
+  imports: [Home],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected title = 'ChatWiser';
