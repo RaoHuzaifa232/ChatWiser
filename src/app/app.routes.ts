@@ -7,6 +7,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/auth/auth.routes').then((m) => m.authRoutes),
   },
+   {
+    path: 'chat',
+    loadChildren: () =>
+      import('./features/chat/chat.routes').then((c) => c.chatRoutes),
+  },
   { path: 'home', component: Home },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
