@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ContactList } from "./contact-list/contact-list";
 
 @Component({
   selector: 'app-chat',
-  imports: [ContactList],
+  imports: [],
   templateUrl: './chat.html',
   styleUrl: './chat.scss'
 })

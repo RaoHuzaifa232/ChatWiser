@@ -1,14 +1,17 @@
 import { Routes } from '@angular/router';
 import { Home } from './layout/home/home';
-import { Chat } from './features/chat/chat';
 
 export const routes: Routes = [
-    {
-        path: 'chat',
-        component: Chat,
-    },
-    {
-        path: '',
-        component: Home,
-    },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/auth/auth.routes').then((m) => m.authRoutes),
+  },
+   {
+    path: 'chat',
+    loadChildren: () =>
+      import('./features/chat/chat.routes').then((c) => c.chatRoutes),
+  },
+  { path: 'home', component: Home },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];

@@ -18,12 +18,14 @@
       </div>
       <div class="hidden sm:flex sm:items-center">
         <button
-          class="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors"
+          class="px-4 py-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors cursor-pointer"
+          (click)="navigateToLogin()"
         >
           Login
         </button>
         <button
-          class="ml-4 px-4 py-2 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors"
+          class="ml-4 px-4 py-2 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors cursor-pointer"
+          (click)="navigateToSignUp()"
         >
           Sign up
         </button>
@@ -45,12 +47,14 @@
   <div class="sm:hidden">
     <div class="pt-2 pb-3 space-y-1 px-4">
       <button
-        class="block w-full text-left px-3 py-2 text-base font-medium text-indigo-600"
+        class="block w-full text-left px-3 py-2 text-base font-medium text-indigo-600 cursor-pointer"
+        (click)="navigateToLogin()"
       >
         Login
       </button>
       <button
-        class="block w-full text-left px-3 py-2 rounded-md bg-indigo-600 text-white font-medium"
+        class="block w-full text-left px-3 py-2 rounded-md bg-indigo-600 text-white font-medium cursor-pointer"
+        (click)="navigateToSignUp()"
       >
         Sign up
       </button>
