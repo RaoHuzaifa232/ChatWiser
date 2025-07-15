@@ -1,57 +1,90 @@
-<div class="w-80 border-r flex-shrink-0 overflow-hidden flex flex-col">
-    <!-- Sidebar header -->
-    <div class="p-4 border-b flex justify-between items-center">
-        <h1 class="font-bold text-xl">Messages</h1>
-        <div class="flex space-x-2">
-            <button class="p-2 rounded-full">
-                 <i class="pi pi-bell" style="font-size: 1rem"></i>
-            </button>
-            <button class="p-2 rounded-full">
-                <i class="pi  pi-cog" style="font-size: 1rem"></i>
-            </button>
-        </div>
+<div
+  [class]="`w-80 border-r ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} flex-shrink-0 overflow-hidden flex flex-col`"
+>
+  <div
+    [class]="`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} flex justify-between items-center`"
+  >
+    <h1
+      [class]="`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-800'}`"
+    >
+      Messages
+    </h1>
+    <div class="flex space-x-2">
+      <button
+        [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+      >
+        <i
+          [class]="` pi pi-bell h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+        ></i>
+      </button>
+      <button
+        [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+      >
+        <i
+          [class]="`pi pi-cog h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+        ></i>
+      </button>
     </div>
-
-    <!-- Search -->
-    <div class="p-4 border-b">
-        <div class="relative rounded-md shadow-sm">
-            <input type="text"
-                class="block w-full pl-4 pr-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Search conversations" />
-        </div>
+  </div>
+  <!-- Search  -->
+  <div
+    [class]="`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`"
+  >
+    <div class="relative rounded-md shadow-sm">
+      <input
+        type="text"
+        [class]="`block w-full pl-4 pr-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' : 'bg-gray-100 text-gray-900 placeholder-gray-500 border-gray-200'}`"
+        placeholder="Search conversations"
+      />
     </div>
-
-    <!-- Chat list -->
-    <div class="flex-grow overflow-y-auto">
-        @for (chat of chats; track $index) {
-        <div class="p-4 border-b cursor-pointer flex items-center" [class.bg-gray-700]="activeChat === chat.id"
-            [class.bg-gray-100]="activeChat === chat.id" (click)="setActiveChat(chat.id)">
-            <div class="relative">
-                <img class="h-12 w-12 rounded-full" [src]="chat.avatar" [alt]="chat.name" />
-                @if (chat.online) {
-                <span
-                    class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 ring-2 ring-white"></span>}
-            </div>
-
-            <div class="ml-3 flex-grow min-w-0">
-                <div class="flex justify-between items-baseline">
-                    <p class="font-medium truncate">
-                        {{ chat.name }}
-                    </p>
-                    <p class="text-xs">
-                        {{ chat.time }}
-                    </p>
-                </div>
-                <p class="text-sm truncate">
-                    {{ chat.lastMessage }}
-                </p>
-            </div>
-            @if (chat.unread > 0) {
-            <div class="ml-2 bg-indigo-600 rounded-full w-5 h-5 flex items-center justify-center">
-                <span class="text-xs text-white">{{ chat.unread }}</span>
-            </div>
-            }
-        </div>
+  </div>
+  <!-- Chat list  -->
+  <div class="flex-grow overflow-y-auto">
+    @for (chat of chats; track $index) {
+    <div
+      [class]="`p-4 border-b cursor-pointer flex items-center ${darkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50'} ${activeChat === chat.id ? (darkMode ? 'bg-gray-700' : 'bg-gray-100') : ''} `"
+      click="() => setActiveChat(chat.id)"
+    >
+      <div class="relative">
+        <img
+          class="h-12 w-12 rounded-full"
+          [src]="chat.avatar"
+          [alt]="chat.name"
+        />
+        @if(chat.online){
+        <span
+          class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 ring-2 ring-white"
+        ></span>
         }
+      </div>
+      <div class="ml-3 flex-grow min-w-0">
+        <div class="flex justify-between items-baseline">
+          <p
+            [class]="`font-medium truncate ${darkMode ? 'text-white' : 'text-gray-900'}`"
+          >
+            {{ chat.name }}
+          </p>
+          <p
+            [class]="`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          >
+            {{ chat.time }}
+          </p>
+        </div>
+        <p
+          [class]="`text-sm truncate ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+        >
+          {{ chat.lastMessage }}
+        </p>
+      </div>
+      @if(chat.unread > 0){
+      <div
+        class="ml-2 bg-indigo-600 rounded-full w-5 h-5 flex items-center justify-center"
+      >
+        <span class="text-xs text-white">{{ chat.unread }}</span>
+      </div>
+      }
     </div>
+
+    }
+  </div>
 </div>
