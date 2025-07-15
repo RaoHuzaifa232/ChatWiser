@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ContactList {
   @Input() activeChat: any;
+  @Input() darkMode = false;
 
   // Sample chat Contact data
   chats = [
@@ -62,9 +63,7 @@ export class ContactList {
     },
   ];
 
-
-   setActiveChat(chatId: any){
-        this.activeChat = chatId;
-
-   }
+  setActiveChat(chatId: any) {
+    this.activeChat = chatId;
+  }
 }

@@ -1,24 +1,14 @@
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar  -->
-  <app-contact-list />
-  <!-- <Sidebar
-        activeChat={activeChat}
-        setActiveChat={setActiveChat}
-        darkMode={darkMode}
-      /> -->
-  <!-- Main content  -->
+  <!-- Contact List  -->
+  <app-contact-list [darkMode]="darkMode" />
   <div class="flex flex-col flex-grow">
-    <!-- <TopNav darkMode={darkMode} setDarkMode={setDarkMode} /> -->
-    <app-chat-header  (darkModeChange)="toggleDarkMode($event)"/>
+    <!-- Chat Header  -->
+    <app-chat-header (darkModeChange)="toggleDarkMode($event)" />
     <div class="flex-grow overflow-hidden flex flex-col">
-      <!-- <ConversationPanel
-            activeChat={activeChat}
-            typing={typing}
-            darkMode={darkMode}
-          /> -->
-      <app-chat-message />
-      <!-- <MessageInput onFocus={handleInputFocus} darkMode={darkMode} /> -->
-      <app-message-input />
+      <!-- Main chat panel -->
+      <app-conversational-panel [darkMode]="darkMode" [typing]="checkTyping" />
+      <!-- Chat Input -->
+      <app-message-input [darkMode]="darkMode" (onFocus)="typing($event)" />
     </div>
   </div>
 </div>
