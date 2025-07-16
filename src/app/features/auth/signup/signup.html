@@ -1,6 +1,20 @@
-<div [class]="'min-h-screen flex items-center justify-center ' + (darkMode ? 'bg-gray-900' : 'bg-gray-50')">
+<div
+  [class]="
+    'min-h-screen flex items-center justify-center ' +
+    (darkMode ? 'bg-gray-900' : 'bg-gray-50')
+  "
+>
   <div class="max-w-md mx-auto px-4 sm:px-6">
-    <div class="flex justify-end mb-4">
+    <div class="flex justify-between mb-4">
+      <button
+      (click)="navigateToHome()"
+        [class]="
+          'p-2 rounded-sm shadow ' +
+          (darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600')
+        "
+      >
+        <i class="pi pi-arrow-left h-5 w-5 cursor-pointer"></i>
+      </button>
       <button
         (click)="toggleDarkMode()"
         [class]="
@@ -9,9 +23,9 @@
         "
       >
         @if (darkMode) {
-        <i class="pi pi-sun h-5 w-5"></i>
+        <i class="pi pi-sun h-5 w-5 cursor-pointer"></i>
         }@else {
-        <i class="pi pi-moon h-5 w-5"></i>
+        <i class="pi pi-moon h-5 w-5 cursor-pointer"></i>
         }
       </button>
     </div>
