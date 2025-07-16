@@ -29,15 +29,18 @@ export class Login {
     return this.form.get('password');
   }
 
-  togglePassword() {
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
-  navigateToSignup() {
-    this.router.navigate(['/auth/signup']); // Adjust the route as needed
+  navigateToSignup(): void {
+    this.router.navigate(['/auth/signup']);
+  }
+  navigateToHome(): void {
+    this.router.navigate(['/home']);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) return;
 
     this.isLoading = true;

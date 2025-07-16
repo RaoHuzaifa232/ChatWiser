@@ -24,19 +24,19 @@ export class Signup {
     confirmPassword: ['', Validators.required],
   });
 
-  toggleDarkMode() {
+  toggleDarkMode():void {
     this.darkMode = !this.darkMode;
   }
 
-  togglePassword() {
+  togglePassword():void {
     this.showPassword = !this.showPassword;
   }
 
-  toggleConfirmPassword() {
+  toggleConfirmPassword():void {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  handleSubmit() {
+  handleSubmit():void {
     if (this.form.invalid) return;
 
     this.isLoading = true;
@@ -48,8 +48,11 @@ export class Signup {
     }, 2000);
   }
 
-  navigateToLogin() {
+  navigateToLogin():void {
     this.router.navigate(['/auth/login']);
+  }
+  navigateToHome():void {
+    this.router.navigate(['/home']);
   }
 
   get f() {
