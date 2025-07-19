@@ -1,22 +1,29 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
-  private readonly router = inject(Router);
+  private readonly _router = inject(Router);
+  private readonly _authService = inject(AuthService);
   darkMode: boolean = false;
   isLoading = false;
 
   fb: FormBuilder = new FormBuilder();
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
   });
 
   get emailControl() {
@@ -34,21 +41,28 @@ export class Login {
   }
 
   navigateToSignup(): void {
-    this.router.navigate(['/auth/signup']);
+    this._router.navigate(['/auth/signup']);
   }
   navigateToHome(): void {
-    this.router.navigate(['/home']);
+    this._router.navigate(['/home']);
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) return;
-
+  onSubmit(event: Event): void {
+    event.preventDefault();
+    if (
+      this.form.invalid ||
+      this.emailControl?.value == null ||
+      this.passwordControl?.valid == null
+    )
+      return;
     this.isLoading = true;
+    const loginPayload = {
+      email: this.emailControl.value,
+      password: this.passwordControl.value,
+    };
 
-    // Simulate API call
-    setTimeout(() => {
+    this._authService.login(loginPayload).then(() => {
       this.isLoading = false;
-      // Proceed with auth logic
-    }, 2000);
+    });
   }
 }
