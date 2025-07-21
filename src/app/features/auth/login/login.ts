@@ -61,8 +61,15 @@ export class Login {
       password: this.passwordControl.value,
     };
 
-    this._authService.login(loginPayload).then(() => {
-      this.isLoading = false;
+    this._authService.login(loginPayload).subscribe({
+      next: (res) => {
+        console.log('Login', res);
+        this.isLoading = false;
+        this._router.navigate(['/chat']);
+      },
+      error: (error) => {
+        console.log('Login error', error);
+      },
     });
   }
 }
