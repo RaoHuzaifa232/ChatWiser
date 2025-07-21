@@ -9,20 +9,10 @@ export class AuthService {
   private readonly _http = inject(HttpClient);
 
   signUp(user: any) {
-    this._http.post(`${this._baseUrl}/auth/signup`, user).subscribe({
-      next: (res) => {
-        console.log('Signup', res);
-      },
-      error: (error) => {},
-    });
+    return this._http.post(`${this._baseUrl}/auth/signup`, user);
   }
 
- async login(userLogin: {}): Promise<any> {
-    this._http.post(`${this._baseUrl}/auth/login`, userLogin).subscribe({
-      next: (res) => {
-        console.log('Login', res);
-      },
-      error: (error) => {},
-    });
+  login(userLogin: any) {
+    return this._http.post(`${this._baseUrl}/auth/login`, userLogin);
   }
 }
