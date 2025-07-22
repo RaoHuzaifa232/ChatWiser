@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ChatMessage } from "./chat-message/chat-message";
 import { CommonModule } from '@angular/common';
+import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-conversational-panel',
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './conversational-panel.scss',
 })
 export class ConversationalPanel {
-  @Input() darkMode = false;
+  private readonly darkModeService = inject(DarkModeService);
   @Input() activeChat = 1;
   @Input() typing = false;
 
@@ -123,6 +124,10 @@ export class ConversationalPanel {
       },
     ],
   };
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 
   get currentChat() {
     return this.conversations[this.activeChat] || [];

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { DarkModeService } from '../../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-chat-message',
@@ -8,5 +9,9 @@ import { Component, Input } from '@angular/core';
 })
 export class ChatMessage {
   @Input() message: any;
-  @Input() darkMode = false;
+  private readonly darkModeService = inject(DarkModeService);
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 }

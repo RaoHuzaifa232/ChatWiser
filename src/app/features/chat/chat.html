@@ -1,14 +1,14 @@
 <div class="flex h-screen overflow-hidden">
   <!-- Contact List  -->
-  <app-contact-list [darkMode]="darkMode" />
+  <app-contact-list />
   <div class="flex flex-col flex-grow">
     <!-- Chat Header  -->
-    <app-chat-header (darkModeChange)="toggleDarkMode($event)" />
+    <app-chat-header />
     <div class="flex-grow overflow-hidden flex flex-col">
       <!-- Main chat panel -->
-      <app-conversational-panel [darkMode]="darkMode" [typing]="checkTyping" />
+      <app-conversational-panel [typing]="checkTyping" />
       <!-- Chat Input -->
-      <app-message-input [darkMode]="darkMode" (onFocus)="typing($event)" />
+      <app-message-input (onFocus)="typing($event)" />
     </div>
   </div>
-</div>
+</div>  

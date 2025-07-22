@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ import { AuthService } from '../auth.service';
 export class Login {
   private readonly _router = inject(Router);
   private readonly _authService = inject(AuthService);
-  darkMode: boolean = false;
+  private readonly darkModeService = inject(DarkModeService);
   isLoading = false;
 
   fb: FormBuilder = new FormBuilder();
@@ -34,6 +35,14 @@ export class Login {
 
   get passwordControl() {
     return this.form.get('password');
+  }
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
+
+  toggleDarkMode(): void {
+    this.darkModeService.toggleDarkMode();
   }
 
   togglePassword(): void {

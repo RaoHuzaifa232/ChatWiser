@@ -47,7 +47,7 @@
     </button>
     <button
       type="submit"
-      disabled="{!message.trim()}"
+      [disabled]="!message.value?.trim()"
       [class]="`p-2 rounded-sm ${message.value?.trim() ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : darkMode ? 'text-gray-500' : 'text-gray-400'}`"
     >
       <i class="pi pi-send h-5 w-5"></i>

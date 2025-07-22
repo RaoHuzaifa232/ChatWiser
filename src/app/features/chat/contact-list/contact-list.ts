@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -8,7 +9,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ContactList {
   @Input() activeChat: any;
-  @Input() darkMode = false;
+  private readonly darkModeService = inject(DarkModeService);
 
   // Sample chat Contact data
   chats = [
@@ -62,6 +63,10 @@ export class ContactList {
       online: false,
     },
   ];
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 
   setActiveChat(chatId: any) {
     this.activeChat = chatId;
