@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './signup.scss',
 })
 export class Signup {
-  private readonly router = inject(Router);
+  private readonly _router = inject(Router);
 
   darkMode = false;
   showPassword = false;
@@ -70,10 +70,10 @@ export class Signup {
   }
 
   navigateToLogin():void {
-    this.router.navigate(['/auth/login']);
+    this._router.navigate(['/auth/login']);
   }
   navigateToHome():void {
-    this.router.navigate(['/home']);
+    this._router.navigate(['/home']);
   }
 
   get f() {

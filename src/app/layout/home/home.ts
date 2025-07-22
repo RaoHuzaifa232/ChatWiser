@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 //Components
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
+import { Router } from '@angular/router';
 
 interface Feature {
   name: string;
@@ -29,6 +30,7 @@ interface Image {
   styleUrl: './home.scss',
 })
 export class Home {
+  private readonly _router = inject(Router);
   features: Array<Feature> = [
     {
       name: 'Secure Messaging',
@@ -101,4 +103,8 @@ export class Home {
       alt: 'Desktop interface of the chat application',
     },
   ];
+
+  navigateToSignup(): void {
+    this._router.navigate(['/auth/signup']);
+  }
 }
