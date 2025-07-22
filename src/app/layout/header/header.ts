@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,12 @@ import { Router } from '@angular/router';
 })
 export class Header {
   private readonly router = inject(Router);
+  private readonly darkModeService = inject(DarkModeService);
   isMenuOpen = false;
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -20,5 +26,9 @@ export class Header {
 
   navigateToSignUp(): void {
     this.router.navigate(['auth/signup']);
+  }
+
+  toggleDarkMode(): void {
+    this.darkModeService.toggleDarkMode();
   }
 }

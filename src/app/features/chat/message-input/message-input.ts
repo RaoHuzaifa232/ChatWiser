@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-message-input',
@@ -8,7 +9,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './message-input.scss',
 })
 export class MessageInput {
-  @Input() darkMode: boolean = false;
+  private readonly darkModeService = inject(DarkModeService);
   @Output() onSend = new EventEmitter<string>();
   @Output() onFocus = new EventEmitter<boolean>(false);
 
@@ -16,6 +17,10 @@ export class MessageInput {
   message = new FormControl('');
 
   emojis = ['😊', '😂', '😍', '👍', '🎉', '❤️', '🔥', '😎'];
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 
   addEmoji(emoji: string) {
     const currentMessage = this.message.value || '';

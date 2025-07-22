@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,8 +12,7 @@ import { AuthService } from '../auth.service';
 })
 export class Signup {
   private readonly _router = inject(Router);
-
-  darkMode = false;
+  private readonly darkModeService = inject(DarkModeService);
   showPassword = false;
   showConfirmPassword = false;
   isLoading = false;
@@ -27,11 +27,15 @@ export class Signup {
 
   constructor(private authService: AuthService) {}
 
-  toggleDarkMode():void {
-    this.darkMode = !this.darkMode;
+  get darkMode() {
+    return this.darkModeService.darkMode();
   }
 
-  togglePassword():void {
+  toggleDarkMode(): void {
+    this.darkModeService.toggleDarkMode();
+  }
+
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 

@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { Router } from '@angular/router';
+import { DarkModeService } from '../../services/dark-mode.service';
 
 interface Feature {
   name: string;
@@ -31,6 +32,7 @@ interface Image {
 })
 export class Home {
   private readonly _router = inject(Router);
+  private readonly darkModeService = inject(DarkModeService);
   features: Array<Feature> = [
     {
       name: 'Secure Messaging',
@@ -103,6 +105,10 @@ export class Home {
       alt: 'Desktop interface of the chat application',
     },
   ];
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 
   navigateToSignup(): void {
     this._router.navigate(['/auth/signup']);

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
   selector: 'app-chat-header',
@@ -7,11 +8,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './chat-header.scss'
 })
 export class ChatHeader {
-  @Output() darkModeChange = new EventEmitter<boolean>(false);
-  darkMode: boolean = false;
+  private readonly darkModeService = inject(DarkModeService);
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 
   toggleDarkMode() {
-    this.darkMode = !this.darkMode;
-    this.darkModeChange.emit(this.darkMode);
+    this.darkModeService.toggleDarkMode();
   }
 }

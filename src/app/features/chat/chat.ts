@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ChatHeader } from './chat-header/chat-header';
 import { ContactList } from './contact-list/contact-list';
 import { ConversationalPanel } from './conversational-panel/conversational-panel';
 import { MessageInput } from './message-input/message-input';
+import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
   selector: 'app-chat',
@@ -11,10 +12,11 @@ import { MessageInput } from './message-input/message-input';
   styleUrl: './chat.scss',
 })
 export class Chat {
-  darkMode = false;
+  private readonly darkModeService = inject(DarkModeService);
   checkTyping = false;
-  toggleDarkMode(event: boolean): void {
-    this.darkMode = event;
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
   }
 
   typing(event: boolean): void {

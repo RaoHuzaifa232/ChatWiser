@@ -14,7 +14,7 @@
       </button>
       <button
         [class]="`p-2 rounded-sm ${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600'} shadow cursor-pointer`"
-        (click)="darkMode = !darkMode"
+        (click)="toggleDarkMode()"
       >
         @if (darkMode) {
         <i class="pi pi-sun h-5 w-5"></i>

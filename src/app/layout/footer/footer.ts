@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { DarkModeService } from '../../services/dark-mode.service';
 
 export interface NavigationItem {
   name: string;
@@ -20,6 +21,7 @@ export interface FooterNavigation {
   styleUrl: './footer.scss',
 })
 export class Footer {
+  private readonly darkModeService = inject(DarkModeService);
   footerNavigation: FooterNavigation = {
     product: [
       {
@@ -112,4 +114,8 @@ export class Footer {
       },
     ],
   };
+
+  get darkMode() {
+    return this.darkModeService.darkMode();
+  }
 }
