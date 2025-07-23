@@ -1,6 +1,97 @@
 <div class="flex h-screen overflow-hidden">
   <!-- Contact List  -->
-  <app-contact-list />
+  <!-- <app-contact-list /> -->
+  <div
+    [class]="`w-80 border-r ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} flex-shrink-0 overflow-hidden flex flex-col`"
+  >
+    <div
+      [class]="`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} flex justify-between items-center`"
+    >
+      <h1
+        [class]="`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-800'}`"
+      >
+        Messages
+      </h1>
+      <div class="flex space-x-2">
+        <button
+          [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+        >
+          <i
+            [class]="` pi pi-bell h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          ></i>
+        </button>
+        <button
+          [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+        >
+          <i
+            [class]="`pi pi-cog h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          ></i>
+        </button>
+      </div>
+    </div>
+    <!-- Search  -->
+    <div
+      [class]="`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`"
+    >
+      <div class="relative rounded-md shadow-sm">
+        <input
+          type="text"
+          [class]="`block w-full pl-4 pr-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' : 'bg-gray-100 text-gray-900 placeholder-gray-500 border-gray-200'}`"
+          placeholder="Search conversations"
+        />
+      </div>
+    </div>
+    <!-- Chat list  -->
+    <div class="flex-grow overflow-y-auto">
+      @for (chat of chats; track $index) {
+      <div
+        [class]="`p-4 border-b cursor-pointer flex items-center ${darkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50'} ${activeChat === chat.id ? (darkMode ? 'bg-gray-700' : 'bg-gray-100') : ''} `"
+        click="() => setActiveChat(chat.id)"
+      >
+        <div class="relative">
+          <img
+            class="h-12 w-12 rounded-full"
+            [src]="chat.avatar"
+            [alt]="chat.name"
+          />
+          @if(chat.online){
+          <span
+            class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 ring-2 ring-white"
+          ></span>
+          }
+        </div>
+        <div class="ml-3 flex-grow min-w-0">
+          <div class="flex justify-between items-baseline">
+            <p
+              [class]="`font-medium truncate ${darkMode ? 'text-white' : 'text-gray-900'}`"
+            >
+              {{ chat.name }}
+            </p>
+            <p
+              [class]="`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+            >
+              {{ chat.time }}
+            </p>
+          </div>
+          <p
+            [class]="`text-sm truncate ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          >
+            {{ chat.lastMessage }}
+          </p>
+        </div>
+        @if(chat.unread > 0){
+        <div
+          class="ml-2 bg-indigo-600 rounded-full w-5 h-5 flex items-center justify-center"
+        >
+          <span class="text-xs text-white">{{ chat.unread }}</span>
+        </div>
+        }
+      </div>
+
+      }
+    </div>
+  </div>
+
   <div class="flex flex-col flex-grow">
     <!-- Chat Header  -->
     <app-chat-header />
@@ -8,7 +99,63 @@
       <!-- Main chat panel -->
       <app-conversational-panel [typing]="checkTyping" />
       <!-- Chat Input -->
-      <app-message-input (onFocus)="typing($event)" />
+      <!-- <app-message-input (onFocus)="typing($event)" /> -->
+      <div
+        [class]="`p-4 border-t ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`"
+      >
+        @if (showEmojiPicker) {
+        <div
+          [class]="`grid grid-cols-8 gap-2 p-3 mb-2 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`"
+        >
+          @for (emoji of emojis;track $index; let index = $index) {
+          <button
+            key="{index}"
+            class="text-xl hover:bg-opacity-50 hover:bg-gray-200 rounded p-1"
+            (click)="addEmoji(emoji)"
+          >
+            {{ emoji }}
+          </button>
+          }
+        </div>
+        }
+        <form (ngSubmit)="handleSubmit()" class="flex items-center">
+          <button
+            type="button"
+            [class]="`p-2 rounded-sm ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`"
+            (click)="toggleEmojiPicker()"
+          >
+            <i class="pi pi-face-smile h-5 w-5"></i>
+          </button>
+          <button
+            type="button"
+            [class]="`p-2 rounded-sm ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`"
+          >
+            <i class="pi pi-paperclip h-5 w-5"></i>
+          </button>
+          <input
+            [formControl]="message"
+            (focus)="checkTyping = true"
+            (blur)="checkTyping = false"
+            placeholder="Type a message..."
+            onFocus="{onFocus}"
+            [class]="`flex-grow mx-2 p-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' : 'bg-gray-100 text-gray-900 placeholder-gray-500 border-gray-200'}`"
+            placeholder="Type a message..."
+          />
+          <button
+            type="button"
+            [class]="`p-2 rounded-sm ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`"
+          >
+            <i class="pi pi-microphone h-5 w-5"></i>
+          </button>
+          <button
+            type="submit"
+            [disabled]="!message.value?.trim()"
+            [class]="`p-2 rounded-sm ${message.value?.trim() ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : darkMode ? 'text-gray-500' : 'text-gray-400'}`"
+          >
+            <i class="pi pi-send h-5 w-5"></i>
+          </button>
+        </form>
+      </div>
     </div>
   </div>
-</div>  
+</div>
