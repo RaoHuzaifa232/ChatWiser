@@ -1,0 +1,20 @@
+@media (max-width: 767px) {
+  .md\:flex-row {
+    flex-direction: column !important;
+  }
+  .md\:w-80 {
+    width: 100% !important;
+  }
+  .md\:hidden {
+    display: none !important;
+  }
+  .mobile-back-btn {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    padding: 8px;
+    border: none;
+  }
+}
