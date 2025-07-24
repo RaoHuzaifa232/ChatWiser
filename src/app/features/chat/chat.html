@@ -1,14 +1,314 @@
-<div class="flex h-screen overflow-hidden">
+<div class="flex flex-col md:flex-row h-screen">
   <!-- Contact List  -->
-  <app-contact-list />
-  <div class="flex flex-col flex-grow">
-    <!-- Chat Header  -->
-    <app-chat-header />
-    <div class="flex-grow overflow-hidden flex flex-col">
-      <!-- Main chat panel -->
-      <app-conversational-panel [typing]="checkTyping" />
-      <!-- Chat Input -->
-      <app-message-input (onFocus)="typing($event)" />
+  @if (!isMobile || (isMobile && showContactList)) {
+  <div
+    [class]="`w-full h-full md:w-80 border-r ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} flex-shrink-0 overflow-hidden flex flex-col`"
+  >
+    <div
+      [class]="`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} flex justify-between items-center`"
+    >
+      <h1
+        [class]="`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-800'}`"
+      >
+        Messages
+      </h1>
+      <div class="flex space-x-2">
+        <button
+          [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+        >
+          <i
+            [class]="` pi pi-bell h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          ></i>
+        </button>
+        <button
+          [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+        >
+          <i
+            [class]="`pi pi-cog h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          ></i>
+        </button>
+      </div>
+    </div>
+    <!-- Search  -->
+    <div
+      [class]="`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`"
+    >
+      <div class="relative rounded-md shadow-sm">
+        <input
+          type="text"
+          [class]="`block w-full pl-4 pr-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' : 'bg-gray-100 text-gray-900 placeholder-gray-500 border-gray-200'}`"
+          placeholder="Search conversations"
+        />
+      </div>
+    </div>
+    <!-- Chat list  -->
+    <div class="flex-grow overflow-y-auto">
+      @for (chat of chats; track $index) {
+      <div
+        [class]="`p-4  cursor-pointer flex items-center ${activeChat === chat.id ? (darkMode ? 'bg-gray-700' : 'bg-gray-100') : ''} `"
+        (click)="setActiveChat(chat.id)"
+      >
+        <div class="relative">
+          <img
+            class="h-12 w-12 rounded-full"
+            [src]="chat.avatar"
+            [alt]="chat.name"
+          />
+          @if(chat.online){
+          <span
+            class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 ring-2 ring-white"
+          ></span>
+          }
+        </div>
+        <div class="ml-3 flex-grow min-w-0">
+          <div class="flex justify-between items-baseline">
+            <p
+              [class]="`font-medium truncate ${darkMode ? 'text-white' : 'text-gray-900'}`"
+            >
+              {{ chat.name }}
+            </p>
+            <p
+              [class]="`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+            >
+              {{ chat.time }}
+            </p>
+          </div>
+          <p
+            [class]="`text-sm truncate ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          >
+            {{ chat.lastMessage }}
+          </p>
+        </div>
+        @if(chat.unread > 0){
+        <div
+          class="ml-2 bg-indigo-600 rounded-full w-5 h-5 flex items-center justify-center"
+        >
+          <span class="text-xs text-white">{{ chat.unread }}</span>
+        </div>
+        }
+      </div>
+
+      }
     </div>
   </div>
-</div>  
+  }
+  <!-- chat -->
+  @if (!isMobile || (isMobile && !showContactList)) {
+  <div class="flex flex-col flex-grow">
+    <!-- Chat Header  -->
+    <div
+      [class]="`min-h-[72.8px] flex items-center justify-between px-4 border-b sticky top-0 z-10 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`"
+    >
+      <div class="flex items-center">
+        @if (isMobile) {
+        <button
+          (click)="backToContacts()"
+          [class]="`block mr-2 p-2 rounded-sm ${darkMode ? 'text-white' : 'text-gray-900'}`"
+        >
+          <i class="pi pi-arrow-left"></i>
+        </button>
+        }
+        <div class="relative">
+          <img
+            class="h-10 w-10 rounded-full"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="Your avatar"
+          />
+          <span
+            class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-white"
+          ></span>
+        </div>
+        <div class="ml-3">
+          <p
+            [class]="`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`"
+          >
+            Your Name
+          </p>
+          <p
+            [class]="`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          >
+            Online
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button
+          class="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+        >
+          <i
+            [class]="`pi pi-search h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          ></i>
+          <!-- <SearchIcon
+               [class]=""
+             /> -->
+        </button>
+        <button
+          [class]="
+            'p-2 rounded-sm cursor-pointer ' +
+            (darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600')
+          "
+          (click)="toggleDarkMode()"
+        >
+          @if (darkMode) {
+          <i class="pi pi-sun h-5 w-5"></i>
+          }@else {
+          <i class="pi pi-moon h-5 w-5"></i>
+          }
+        </button>
+        <button
+          [class]="`p-2 rounded-full ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`"
+        >
+          <i
+            [class]="`pi pi-ellipsis-v h-5 w-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+          ></i>
+        </button>
+      </div>
+    </div>
+    <div class="flex-grow overflow-hidden flex flex-col">
+      <!-- Main chat panel -->
+      <div
+        [class]="`flex-grow p-4 overflow-y-auto ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} md:pb-0 pb-20`"
+      >
+        <div class="max-w-3xl mx-auto">
+          <div class="space-y-4">
+            @for (message of currentChat; track $index) {
+            <div
+              [class]="`flex ${message.isUser ? 'justify-end' : 'justify-start'}`"
+            >
+              @if (!message.isUser) {
+
+              <img
+                class="h-8 w-8 rounded-full mr-2 self-end"
+                [src]="message.avatar"
+                [alt]="message.sender"
+              />
+              }
+              <div class="flex flex-col">
+                <div
+                  [class]="`p-3 rounded-2xl max-w-md ${message.isUser ? (darkMode ? 'bg-indigo-600 text-white' : 'bg-indigo-500 text-white') : darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`"
+                >
+                  <p>{{ message.message }}</p>
+                </div>
+                <div
+                  [class]="`flex items-center mt-1 ${message.isUser ? 'justify-end' : 'justify-start'}`"
+                >
+                  <span
+                    [class]="`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`"
+                  >
+                    {{ message.time }}
+                  </span>
+                  @if(message.isUser){
+
+                  <div class="ml-1">
+                    @if(message.read){
+                    <div class="flex -space-x-1">
+                      <i class="pi pi-check h-3 w-3 text-blue-500"></i>
+                      <i class="pi pi-check h-3 w-3 text-blue-500"></i>
+                    </div>
+                    }@else{
+                    <i class="pi pi-check h-3 w-3 text-gray-400"></i>
+                    }
+                  </div>
+
+                  }
+                </div>
+              </div>
+              @if(message.isUser){
+              <img
+                class="h-8 w-8 rounded-full ml-2 self-end"
+                [src]="message.avatar"
+                [alt]="message.sender"
+              />
+              }
+            </div>
+            } @if (typing && activeChat === 1) {
+            <div class="flex items-center">
+              <img
+                class="h-8 w-8 rounded-full mr-2"
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt="Sarah Johnson"
+              />
+              <div
+                [class]="`p-3 rounded-2xl max-w-md ${darkMode ? 'bg-gray-800' : 'bg-white'}`"
+              >
+                <div class="flex space-x-1">
+                  <div
+                    [class]="`w-2 h-2 rounded-full animate-bounce ${darkMode ? 'bg-gray-500' : 'bg-gray-400'}`"
+                    style="animation-delay: 0ms"
+                  ></div>
+                  <div
+                    [class]="`w-2 h-2 rounded-full animate-bounce ${darkMode ? 'bg-gray-500' : 'bg-gray-400'}`"
+                    style="animation-delay: 150ms"
+                  ></div>
+                  <div
+                    [class]="`w-2 h-2 rounded-full animate-bounce ${darkMode ? 'bg-gray-500' : 'bg-gray-400'}`"
+                    style="animation-delay: 300ms"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      <!-- Chat Input -->
+      <div
+        [class]="`p-4 border-t md:sticky md:bottom-0 md:z-auto z-20 fixed bottom-0 left-0 w-full ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`"
+      >
+        @if (showEmojiPicker) {
+        <div
+          [class]="`grid grid-cols-8 gap-2 p-3 mb-2 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`"
+        >
+          @for (emoji of emojis;track $index; let index = $index) {
+          <button
+            key="{index}"
+            class="text-xl hover:bg-opacity-50 hover:bg-gray-200 rounded p-1"
+            (click)="addEmoji(emoji)"
+          >
+            {{ emoji }}
+          </button>
+          }
+        </div>
+        }
+        <form (ngSubmit)="handleSubmit()" class="flex items-center">
+          <button
+            type="button"
+            [class]="`p-2 rounded-sm ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`"
+            (click)="toggleEmojiPicker()"
+          >
+            <i class="pi pi-face-smile h-5 w-5"></i>
+          </button>
+          <button
+            type="button"
+            [class]="`p-2 rounded-sm ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`"
+          >
+            <i class="pi pi-paperclip h-5 w-5"></i>
+          </button>
+          <input
+            [formControl]="message"
+            (focus)="typing = true"
+            (blur)="typing = false"
+            placeholder="Type a message..."
+            onFocus="{onFocus}"
+            [class]="`flex-grow mx-2 p-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${darkMode ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' : 'bg-gray-100 text-gray-900 placeholder-gray-500 border-gray-200'}`"
+            placeholder="Type a message..."
+          />
+          <button
+            type="button"
+            [class]="`p-2 rounded-sm ${darkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`"
+          >
+            <i class="pi pi-microphone h-5 w-5"></i>
+          </button>
+          <button
+            type="submit"
+            [disabled]="!message.value?.trim()"
+            [class]="`p-2 rounded-sm ${message.value?.trim() ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : darkMode ? 'text-gray-500' : 'text-gray-400'}`"
+          >
+            <i class="pi pi-send h-5 w-5"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  }
+</div>
